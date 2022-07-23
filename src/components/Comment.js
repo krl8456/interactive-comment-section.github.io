@@ -1,90 +1,101 @@
-import React from "react";
-import "./Comment.css";
-import Answer from "./Answer";
 import { useState } from "react";
+import Answer from "./Answer";
+import Header from "./Header";
+import Counter from "./Counter";
+import Delete from "./Delete";
+import Edit from "./Edit";
+import ReplySign from "./ReplySign";
+import Modal from "./Modal";
+import Update from "./Update";
+import Reply from "./Reply";
 
 function Comment(props) {
-  const [count, setCount] = useState(() => props.comments.score);
   const [plusClicked, setPlus] = useState(false);
   const [minusClicked, setMinus] = useState(false);
+  const [isModalOpened, setIsModalOpened] = useState(false);
+  const [isEditClicked, setIsEditClicked] = useState(false);
+  const [isReply, setIsReply] = useState(false);
 
-  function incrementScore() {
-    if (!plusClicked && minusClicked) {
-      setPlus((prev) => true);
-      setMinus((prev) => false);
-      setCount((prev) => prev + 2);
-    } else if (!plusClicked) {
-      setPlus((prev) => true);
-      setCount((prev) => prev + 1);
-    } else {
-      setPlus((prev) => false);
-      setCount((prev) => prev - 1);
-    }
+  function toggleModal() {
+    setIsModalOpened((prev) => !prev);
   }
-  function decrementScore() {
-    if (!minusClicked && plusClicked) {
-      setMinus((prev) => true);
-      setPlus((prev) => false);
-      setCount((prev) => prev - 2);
-    } else if (!minusClicked) {
-      setMinus((prev) => true);
-      setCount((prev) => prev - 1);
-    } else {
-      setMinus((prev) => false);
-      setCount((prev) => prev + 1);
-    }
+  function toggleEdit() {
+    setIsEditClicked((prev) => !prev);
   }
+  function toggleReply() {
+    setIsReply((prev) => !prev);
+  }
+
   return (
     <div className="Comment">
-      <header className="header">
-        <img
-          src={props.comments.user.image.png}
-          className="user-image"
-          alt="User"
-        />
-        <h1 className="username">{props.comments.user.username}</h1>
-        <p className="created-at">{props.comments.createdAt}</p>
-      </header>
-      <div className="content">{props.comments.content}</div>
-      <div className="counter-and-reply">
-        <div className="counter">
-          <img
-            src="images/icon-plus.svg"
-            className={plusClicked ? "plus darkened" : "plus"}
-            alt="Plus sign"
-            onClick={incrementScore}
+      <div className="Comment--one-comment">
+        <Header content={props.comments} user={props.user} />
+        {isEditClicked ? (
+          <Update
+            id={props.id}
+            handleCommentChange={props.handleCommentChange}
+            addComment={props.addComment}
+            setIsEditClicked={setIsEditClicked}
+            handleUpdateComment={props.handleUpdateComment}
           />
-          <p className="score">{count}</p>
-          <img
-            src="images/icon-minus.svg"
-            className={minusClicked ? "minus darkened" : "minus"}
-            alt="Minus sign"
-            onClick={decrementScore}
+        ) : (
+          <div className="Comment--content">{props.comments.content}</div>
+        )}
+        <div className="Comment--counter-and-reply">
+          <Counter
+            id={props.id}
+            plusClicked={plusClicked}
+            minusClicked={minusClicked}
+            setPlus={setPlus}
+            setMinus={setMinus}
+            addLike={props.addLike}
+            addDislike={props.addDislike}
+            content={props.comments}
           />
-        </div>
-        <div className="reply">
-          <img
-            src="images/icon-reply.svg"
-            className="reply-sign"
-            alt="Reply sign"
+
+          <Delete
+            content={props.comments}
+            user={props.user}
+            toggleModal={toggleModal}
           />
-          <p className="reply-text">Reply</p>
+          {props.comments.user.username === props.user.username ? (
+            <Edit toggleEdit={toggleEdit} />
+          ) : (
+            <ReplySign toggleReply={toggleReply} />
+          )}
         </div>
       </div>
-      <div className="answers">
-        <div className="line"></div>
+      <Reply
+        id={props.id}
+        user={props.user}
+        isReply={isReply}
+        addComment={props.addComment}
+        handleReplyToComment={props.handleReplyToComment}
+        handleCommentChange={props.handleCommentChange}
+        setIsReply={setIsReply}
+      />
+      <div className="Comment--answers">
+        <div className="Comment--line"></div>
         {props.comments.replies &&
           props.comments.replies.map((r, index) => {
             return (
               <Answer
                 key={index}
+                id={r.id}
                 replies={r}
-                incrementScore={incrementScore}
-                decrementScore={decrementScore}
+                user={props.user}
+                addLikeResponse={props.addLikeResponse}
+                addDislikeResponse={props.addDislikeResponse}
               />
             );
           })}
       </div>
+
+      <Modal
+        isModalOpened={isModalOpened}
+        toggleModal={toggleModal}
+        deleteComment={() => props.deleteComment(props.id, setIsModalOpened)}
+      />
     </div>
   );
 }

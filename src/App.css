@@ -1,0 +1,309 @@
+:root {
+  --moderate-blue: hsl(238, 40%, 52%);
+  --soft-red: hsl(358, 79%, 66%);
+  --light-grayish-blue: hsl(239, 57%, 85%);
+  --pale-red: hsl(357, 100%, 86%);
+  --dark-blue: hsl(212, 24%, 26%);
+  --grayish-blue: hsl(211, 10%, 45%);
+  --light-gray: hsl(223, 19%, 93%);
+  --very-light-gray: hsl(228, 33%, 97%);
+  --white: hsl(0, 0%, 100%);
+  --gray: hsl(0, 0%, 88%);
+  --margins: 1em;
+}
+* {
+  font-family: "Kumbh Sans", sans-serif;
+  margin: 0;
+  padding: 0;
+}
+.Main-submit {
+  box-sizing: border-box;
+  margin-top: var(--margins);
+  width: 95%;
+  background-color: var(--white);
+  margin-inline: auto;
+  padding: var(--margins);
+}
+.Main-submit--image-and-submit {
+  margin-top: 1em;
+  width: 100%;
+  position: relative;
+}
+.Main-submit--profile-picture {
+  height: 35px;
+}
+.Main-submit--submit-button {
+  position: absolute;
+  right: 0;
+  border: 0;
+  background-color: var(--moderate-blue);
+  border-radius: 0.4em;
+  color: var(--white);
+  font-weight: 700;
+  padding-inline: 2em;
+  padding-block: var(--margins);
+  cursor: pointer;
+}
+.Main-submit--submit-area {
+  border: 2px solid var(--light-gray);
+  border-radius: 0.5em;
+  resize: none;
+  width: 98%;
+  display: block;
+  margin-inline: auto;
+  height: 10em;
+  padding: 0.8em;
+}
+.Main-submit--submit-area focus::placeholder {
+  color: transparent;
+}
+.Comment {
+  background-color: var(--very-light-gray);
+  position: relative;
+}
+.Comment--one-comment {
+  background-color: var(--white);
+  padding: var(--margins);
+  margin-bottom: var(--margins);
+}
+.Comment--header,
+.Comment--counter,
+.Comment--reply,
+.Comment--answers,
+.Comment--counter-and-reply,
+.Comment--delete {
+  display: flex;
+}
+.Comment--header {
+  align-items: center;
+  gap: 2em;
+}
+.Comment--answers {
+  position: relative;
+  width: 100%;
+  flex-direction: column;
+  align-items: flex-end;
+  background-color: var(--white);
+}
+.Comment--line {
+  height: calc(100% - var(--margins));
+  position: absolute;
+  /* height: 100px; */
+  width: 1px;
+  background-color: var(--light-gray);
+  left: 1%;
+  z-index: 4;
+}
+.Comment--username {
+  font-size: 0.9em;
+  margin-left: -1.5em;
+}
+.Comment--you {
+  color: var(--white);
+  background-color: var(--moderate-blue);
+  margin-left: -1em;
+}
+.Comment--you :first-child {
+  margin-inline: 0.5em;
+  margin-bottom: 0.2em;
+}
+.Comment--user-image {
+  width: 3em;
+  height: auto;
+  margin: var(--margins);
+}
+.Comment--created-at {
+  font-size: 0.9em;
+  color: var(--grayish-blue);
+  margin-left: -1em;
+}
+.Comment--counter-and-reply {
+  position: relative;
+}
+.Comment--counter {
+  align-items: center;
+  position: relative;
+  width: 5em;
+  background-color: var(--very-light-gray);
+  height: 2.3em;
+  margin: var(--margins);
+}
+.Comment--delete {
+  align-items: center;
+  position: absolute;
+  right: 25%;
+  bottom: 1.2em;
+  cursor: pointer;
+}
+.Comment--delete-sign {
+  height: 1.1em;
+}
+.Comment--delete-text {
+  color: var(--pale-red);
+  margin-left: 0.8em;
+  font-weight: 700;
+}
+.Comment--plus {
+  position: absolute;
+  left: 0.3em;
+  cursor: pointer;
+}
+.Comment--minus {
+  position: absolute;
+  right: 0.3em;
+  cursor: pointer;
+}
+.Comment--score {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  color: var(--moderate-blue);
+  font-weight: 900;
+}
+.Comment--reply {
+  position: absolute;
+  right: 5%;
+  bottom: 1.2em;
+  font-weight: 900;
+  color: var(--moderate-blue);
+  align-items: center;
+  gap: 1em;
+  cursor: pointer;
+}
+.Comment--reply-sign {
+  height: 1em;
+  width: auto;
+}
+.Comment--content {
+  margin-left: var(--margins);
+  color: rgb(107, 106, 106);
+}
+.darkened {
+  filter: brightness(50%);
+}
+.Reply {
+  width: 95%;
+  padding-left: 5%;
+}
+.Modal {
+  position: fixed;
+  top: 50%;
+  bottom: 50%;
+  left: 50%;
+  right: 50%;
+  transform: translate(-50%, -50%);
+  height: 160px;
+  width: 270px;
+  background-color: var(--white);
+  padding: 2em;
+  color: var(--dark-blue);
+  border-radius: 10px;
+  margin-inline: 15px;
+  z-index: 1000;
+}
+.Modal--background {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 1000;
+}
+.Modal--header {
+  font-size: 1.2em;
+  margin-bottom: 0.5em;
+}
+.Modal--content {
+  color: var(--grayish-blue);
+}
+.Modal--buttons {
+  display: flex;
+  height: 40px;
+  width: 100%;
+  gap: 1em;
+  margin-top: 1.5em;
+}
+.Modal--button-no,
+.Modal--button-yes {
+  min-width: calc(50% - 0.5em);
+  border: none;
+  font-weight: 700;
+  color: var(--white);
+  border-radius: 10px;
+  cursor: pointer;
+}
+.Modal--button-no {
+  background-color: var(--grayish-blue);
+}
+.Modal--button-yes {
+  background-color: var(--soft-red);
+}
+.Comment--edit {
+  position: relative;
+}
+.Comment--edit-content {
+  height: 7em;
+  width: 80%;
+  margin-left: var(--margins);
+  resize: none;
+  padding: 0.8em;
+  border: 2px solid var(--light-gray);
+  border-radius: 0.5em;
+}
+.Comment--button-update {
+  position: absolute;
+  top: 0;
+  background-color: var(--moderate-blue);
+  border-radius: 0.4em;
+  color: var(--white);
+  font-weight: 700;
+  padding-inline: 2em;
+  padding-block: var(--margins);
+  cursor: pointer;
+  border: 0;
+  margin-left: 2em;
+}
+.Comment--to-whom {
+  font-weight: 700;
+  color: var(--moderate-blue)
+}
+.Reply-to-comment {
+  width: 100%;
+  height: 10em;
+  background-color: var(--white);
+  margin-top: -.5em;
+  margin-bottom: .5em;
+  position: relative;
+}
+.Reply-to-comment--content {
+  height: 7em;
+  width: 75%;
+  margin-left: var(--margins);
+  resize: none;
+  padding: 0.8em;
+  border: 2px solid var(--light-gray);
+  border-radius: 0.5em;
+  margin-left: 7em;
+  margin-top: 1.5em;
+}
+.Reply-to-comment--image {
+  width: 3em;
+  height: auto;
+  position: absolute;
+  left: 1em;
+  top: 1em;
+}
+.Reply-to-comment--button {
+  position: absolute;
+  top: 2em;
+  background-color: var(--moderate-blue);
+  border-radius: 0.4em;
+  color: var(--white);
+  font-weight: 700;
+  padding-inline: 2em;
+  padding-block: var(--margins);
+  cursor: pointer;
+  border: 0;
+  margin-left: 2em;
+}
