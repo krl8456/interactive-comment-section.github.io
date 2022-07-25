@@ -3,7 +3,7 @@
 function MainSubmit(props) {
   return (
     <form className="Main-submit">
-      <textarea className="Main-submit--submit-area" placeholder="Add a comment..." name="commentContent" value={props.addComment.commentContent} onChange={props.handleCommentChange}></textarea>
+      <textarea className="Main-submit--submit-area" placeholder="Add a comment..." name="commentContent" value={props.addComment.commentContent} onChange={props.handleCommentChange} />
       <div className="Main-submit--image-and-submit">
           <img
             src={props.user.image.png}

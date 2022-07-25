@@ -6,8 +6,8 @@ function Update(props) {
       <textarea
         className="Comment--edit-content"
         onChange={props.handleCommentChange}
-        value={props.addComment.updateComment}
-        name="updateComment"
+        value={props.value}
+        name={props.name}
       ></textarea>
       <button
         className="Comment--button-update"

@@ -14,7 +14,7 @@ function Comment(props) {
   const [minusClicked, setMinus] = useState(false);
   const [isModalOpened, setIsModalOpened] = useState(false);
   const [isEditClicked, setIsEditClicked] = useState(false);
-  const [isReply, setIsReply] = useState(false);
+  const [isReplyClicked, setIsReplyClicked] = useState(false);
 
   function toggleModal() {
     setIsModalOpened((prev) => !prev);
@@ -23,7 +23,7 @@ function Comment(props) {
     setIsEditClicked((prev) => !prev);
   }
   function toggleReply() {
-    setIsReply((prev) => !prev);
+    setIsReplyClicked((prev) => !prev);
   }
 
   return (
@@ -37,6 +37,8 @@ function Comment(props) {
             addComment={props.addComment}
             setIsEditClicked={setIsEditClicked}
             handleUpdateComment={props.handleUpdateComment}
+            value={props.addComment.updateComment}
+            name="updateComment"
           />
         ) : (
           <div className="Comment--content">{props.comments.content}</div>
@@ -68,11 +70,12 @@ function Comment(props) {
       <Reply
         id={props.id}
         user={props.user}
-        isReply={isReply}
-        addComment={props.addComment}
+        isReply={isReplyClicked}
+        content={props.addComment.replyToComment}
         handleReplyToComment={props.handleReplyToComment}
         handleCommentChange={props.handleCommentChange}
-        setIsReply={setIsReply}
+        setIsReply={setIsReplyClicked}
+        name="replyToComment"
       />
       <div className="Comment--answers">
         <div className="Comment--line"></div>
@@ -86,6 +89,11 @@ function Comment(props) {
                 user={props.user}
                 addLikeResponse={props.addLikeResponse}
                 addDislikeResponse={props.addDislikeResponse}
+                deleteResponse={props.deleteResponse}
+                handleReplyToReply={props.handleReplyToReply}
+                addComment={props.addComment}
+                handleCommentChange={props.handleCommentChange}
+                handleUpdateResponse={props.handleUpdateResponse}
               />
             );
           })}

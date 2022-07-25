@@ -12,6 +12,8 @@ function App() {
     commentContent: "",
     updateComment: "",
     replyToComment: "",
+    replyToReply: "",
+    updateReply: "",
   });
   // const [isModalOpened, setIsModalOpened] = useState(false);
 
@@ -138,10 +140,10 @@ function App() {
 
   function handleUpdateComment(id, setIsEditClicked) {
     changeComments((prev) =>
-      prev.map((el) =>
-        addComment.updateComment !== "" && el.id === id
-          ? { ...el, content: addComment.updateComment }
-          : el
+      prev.map((comment) =>
+        addComment.updateComment !== "" && comment.id === id
+          ? { ...comment, content: addComment.updateComment }
+          : comment
       )
     );
     setAddComment((prev) => ({
@@ -152,30 +154,92 @@ function App() {
   }
   function handleReplyToComment(id, setIsReply) {
     changeComments((prev) =>
-      prev.map((el) =>
-        el.id === id
+      prev.map((comment) =>
+        comment.id === id && addComment.replyToComment !== ""
           ? {
-              ...el,
+              ...comment,
               replies: [
-                ...el.replies,
+                ...comment.replies,
                 {
                   id: uuidv4(),
                   content: addComment.replyToComment,
                   createdAt: "now",
                   score: 0,
-                  replyingTo: el.user.username,
-                  user: user
+                  replyingTo: comment.user.username,
+                  user: user,
                 },
               ],
             }
-          : el
+          : comment
       )
     );
     setAddComment((prev) => ({
       ...prev,
       replyToComment: "",
     }));
-    setIsReply(prev => !prev)
+    if (addComment.replyToComment !== "") setIsReply((prev) => !prev);
+  }
+
+  function deleteResponse(id, setIsModalOpened) {
+    changeComments((prev) =>
+      prev.map((comment) => ({
+        ...comment,
+        replies: comment.replies.filter((reply) => reply.id !== id),
+      }))
+    );
+    setIsModalOpened((prev) => !prev);
+  }
+
+  function handleReplyToReply(id, setIsReply) {
+    changeComments((prev) =>
+      prev.map((comment) =>
+        comment.replies.find((reply) => reply.id === id) && addComment.replyToReply !== ""
+          ? {
+              ...comment,
+              replies: [
+                ...comment.replies,
+                {
+                  id: uuidv4(),
+                  content: addComment.replyToReply,
+                  createdAt: "now",
+                  score: 0,
+                  replyingTo:
+                    comment.replies[
+                      comment.replies.findIndex((reply) => reply.id === id)
+                    ].user.username,
+                  user: user,
+                },
+              ],
+            }
+          : comment
+      )
+    );
+    setAddComment((prev) => ({
+      ...prev,
+      replyToReply: "",
+    }));
+
+    if (addComment.replyToReply !== "") setIsReply((prev) => !prev);
+  }
+
+  function handleUpdateResponse(id, setIsEditClicked) {
+    changeComments((prev) =>
+      prev.map((comment) =>
+        comment.replies.find((reply) => reply.id === id) &&
+        addComment.updateReply !== ""
+          ? {
+              ...comment,
+              replies: comment.replies.map(reply => reply.id === id ? {...reply, content: addComment.updateReply} : reply)
+            }
+          : comment
+      )
+    );
+
+    setAddComment((prev) => ({
+      ...prev,
+      updateReply: "",
+    }));
+    setIsEditClicked((prev) => !prev);
   }
 
   return (
@@ -196,6 +260,9 @@ function App() {
             addComment={addComment}
             handleUpdateComment={handleUpdateComment}
             handleReplyToComment={handleReplyToComment}
+            deleteResponse={deleteResponse}
+            handleReplyToReply={handleReplyToReply}
+            handleUpdateResponse={handleUpdateResponse}
           />
         );
       })}
